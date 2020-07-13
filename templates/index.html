@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block body %}
+	<form action="{{ url_for('index') }}" method="post" class="form-group text-center">
+		<input type="text" name="search-query" class="form-control form-control-lg" placeholder="Enter title, author or isbn">
+		<br>
+		<input type="submit" value="Search" class="btn btn-primary btn-lg">
+	</form>
+	{% if search_results %}
+		<h5>Search results for '{{ search_query }}':</h5>
+	{% endif %}
+	<div id="search-results">
+		{% for res in search_results %}
+		<div class="card">
+		  <div class="card-body">
+		    <a href="{{ url_for('book', book_id=res.id) }}">
+		    	<h5>
+		    		{{res.title}} by {{res.author}}
+		    	</h5>
+		    </a>
+		    <p>ISBN: {{res.isbn}} | year: {{res.year}}</p>
+		  </div>
+		</div>
+        {% endfor %}
+	</div>
+{% endblock %}

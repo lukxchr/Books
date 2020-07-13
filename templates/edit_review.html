@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<form action="" method="post" novalidate>
+	{{ form.hidden_tag() }}
+	<p>
+		{{ form.title() }}
+	</p>
+	<p>
+		{{ form.content() }}
+	</p>
+	<p>
+		{{ form.rating.label }}
+		{% for subfield in form.rating %}
+		    {{ subfield }}
+		    {{ subfield.label }}
+		{% endfor %}
+	</p>
+	<p>{{ form.submit() }}</p>
+</form>
+{% endblock %}

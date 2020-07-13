@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+{% block body %}
+	<div class="row" id="book-info">
+		<div class="col-2">
+			<img src="{{ book_details['cover'] }}">
+			<p>
+				{% if book_details['goodreads_rating'] %}
+				&#11088; {{ book_details['goodreads_rating'] }} ({{ book_details['goodreads_ratings_count']}})
+				{% else %}
+					Goodreads rating is not avaialble
+				{% endif %}
+			</p>
+		</div>
+		<div class="col-10">
+			<h1>{{ book.title }}</h1>
+			<h5>by {{ book.author }} | year: {{ book.year }} | isbn: {{ book.isbn }}</h2>
+			<p class="text-justify">
+			{{ book_details["description"] }}
+			</p>
+		</div>
+	</div>
+	<hr>
+	{% if not review_by_current_user %}
+	<form action="" method="post" novalidate>
+	{{ form.hidden_tag() }}
+		<h5>Add your review:</h5>
+		<div>{{ form.title }}</div>
+		<div>{{ form.content }}</div>
+		<div>
+			{{form.rating.label}}
+			{% for subfield in form.rating %}
+				{{subfield}}
+				{{subfield.label}}
+			{% endfor %}
+		</div>
+		<div>{{ form.submit }}</div>
+	</form>
+	<hr>
+	{% endif %}
+	<div class="row" id="all-reviews">
+		{% for review in reviews %}
+		<div class="card col-12">
+		  <div class="card-body">
+		  	<h5>
+		  		{{review.title}}
+		  	</h5>
+		  	<div>Rating: {{review.rating}}/5</div>
+		  	<div class="text-justify">
+		  		{{review.content}}
+		  	</div>
+		  	<div>~{{review.user_name}}</div>
+  			{% if review == review_by_current_user %}
+  			<div class="review-actions">
+	  			<a href="{{ url_for('edit_review', review_id=review_by_current_user.id) }}">Edit</a> 
+	  			<a href="{{ url_for('delete_review', review_id=review_by_current_user.id, __METHOD_OVERRIDE__='POST') }}" style="color:red">Delete</a>
+	  		</div>
+		  	{% endif %}
+	  		</div>
+		</div>
+        {% endfor %}
+	</div>
+{% endblock %}
+{% block footer %}
+ <footer class="page-footer font-small blue">
+	<div class="footer-copyright text-center py-3">
+		<a href="#navbar">Back to top</a>
+	</div>
+</footer>
+{% endblock %}
