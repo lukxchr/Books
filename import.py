@@ -11,16 +11,7 @@ reader = csv.reader(f)
 for (isbn, title, author, year) in reader:
 	#print("Adding: ", isbn, title, author, year)
 	if year == "year": continue #skip header
-	db.execute("INSERT INTO books (isbn, title, author, year) VALUES (:isbn, :title, :author, :year)", 
+	db.execute("INSERT INTO books (isbn, title, author, year) VALUES (:isbn, :title, :author, :year)",
 		{"isbn": isbn, "title": title, "author": author, "year": year})
 
 db.commit()
-
-
-
-
-# db.execute("INSERT INTO books (isbn, title, author, year) VALUES (:isbn, :title, :author, :year)", 
-# 				  {"isbn": isbn, "title": title, "author": author, "year": year})
-
-# db.execute("INSERT INTO flights (origin, destination, duration) VALUES (:origin, :destination, :duration)",
-#                   {"origin": origin, "destination": destination, "duration": duration}) # subs
